@@ -1,0 +1,21 @@
+root = "."
+tmp_dir = "tmp"
+
+[build]
+  bin = "tmp/api"
+  cmd = "go build -o ./tmp/api ./cmd/api"
+  delay = 1500
+  exclude_dir = ["tmp", "vendor", "testdata", "uploads", "bin", ".git", "node_modules"]
+  exclude_file = [".air.toml"]
+  exclude_regex = [".*_test.go", ".*_mock.go"]
+  include_ext = ["go"]
+  kill_delay = "2s"
+  log = "main"
+  send_interrupt = true
+  stop_on_error = false
+
+[log]
+  time = true
+
+[misc]
+  clean_on_exit = true

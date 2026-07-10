@@ -1,0 +1,8 @@
+# environment & build artifacts
+**/.env
+**/bin/
+**/node_modules/
+**/.nuxt/
+**/.output/
+**/*.log
+.DS_Store

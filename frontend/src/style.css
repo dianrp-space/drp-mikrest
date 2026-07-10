@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Fira+Sans:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    @apply bg-ink-950 text-ink-200 font-sans antialiased;
+    min-height: 100vh;
+  }
+  /* Scrollbar dark */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { @apply bg-ink-900; }
+  ::-webkit-scrollbar-thumb { @apply bg-ink-700 rounded; }
+  ::-webkit-scrollbar-thumb:hover { @apply bg-ink-600; }
+  /* Focus ring consistent */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-brand-500 ring-offset-2 ring-offset-ink-900;
+  }
+}
+
+@layer components {
+  /* Card */
+  .card {
+    @apply bg-ink-850 border border-ink-700 rounded-xl shadow-card transition-all duration-200;
+  }
+  .card-hover:hover {
+    @apply border-ink-600 shadow-card-hover -translate-y-0.5;
+  }
+  /* Button */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-medium text-sm
+           transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .btn-primary {
+    @apply btn bg-brand-600 text-white hover:bg-brand-500 shadow-glow-sm;
+  }
+  .btn-secondary {
+    @apply btn bg-ink-800 text-ink-200 border border-ink-700 hover:bg-ink-700 hover:border-ink-600;
+  }
+  .btn-danger {
+    @apply btn bg-danger-600 text-white hover:bg-danger-500;
+  }
+  .btn-ghost {
+    @apply btn text-ink-400 hover:text-ink-200 hover:bg-ink-800;
+  }
+  /* Input */
+  .input {
+    @apply w-full px-3 py-2 bg-ink-900 border border-ink-700 rounded-lg text-ink-100 placeholder-ink-500
+           text-sm transition-all duration-200
+           focus:border-brand-500 focus:ring-1 focus:ring-brand-500 focus:outline-none;
+  }
+  .label {
+    @apply block text-sm font-medium text-ink-300 mb-1.5;
+  }
+  /* Badge */
+  .badge {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium;
+  }
+  .badge-online  { @apply badge bg-accent-500/15 text-accent-400; }
+  .badge-offline { @apply badge bg-danger-500/15 text-danger-400; }
+  .badge-unknown { @apply badge bg-ink-700 text-ink-400; }
+  .badge-active  { @apply badge bg-accent-500/15 text-accent-400; }
+  .badge-used    { @apply badge bg-brand-500/15 text-brand-400; }
+  .badge-disabled{ @apply badge bg-warn-500/15 text-warn-400; }
+  .badge-failed  { @apply badge bg-danger-500/15 text-danger-400; }
+  .badge-expired { @apply badge bg-ink-700 text-ink-500; }
+  /* Table */
+  .table-base {
+    @apply w-full text-sm;
+  }
+  .table-base thead {
+    @apply bg-ink-900/50 text-ink-400 text-left text-xs uppercase tracking-wider;
+  }
+  .table-base th {
+    @apply px-5 py-3 font-medium;
+  }
+  .table-base tbody tr {
+    @apply border-t border-ink-800 transition-colors hover:bg-ink-800/50;
+  }
+  .table-base td {
+    @apply px-5 py-3 text-ink-200;
+  }
+  /* Section title */
+  .page-title {
+    @apply text-2xl font-bold text-ink-100;
+  }
+  .page-subtitle {
+    @apply text-sm text-ink-500 mt-1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
