@@ -68,31 +68,6 @@
         </div>
       </div>
 
-      <div class="card p-6 space-y-4">
-        <h2 class="font-semibold text-ink-100">Cek Expired (Scheduler)</h2>
-        <p class="text-sm text-ink-500">Interval pengecekan & auto-disable voucher expired. Diisi dalam menit.</p>
-        <div class="flex items-center gap-4">
-          <input v-model.number="cronInterval" type="number" min="1" class="input w-24" />
-          <span class="text-sm text-ink-500">menit</span>
-          <button class="btn-primary text-sm" @click="saveCron" :disabled="cronSaving">
-            {{ cronSaving ? 'Menyimpan...' : 'Simpan' }}
-          </button>
-          <span v-if="cronSaved" class="text-sm text-accent-400">Tersimpan</span>
-        </div>
-      </div>
-
-      <div class="card p-6 space-y-4">
-        <h2 class="font-semibold text-ink-100">Auto Delete Log</h2>
-        <p class="text-sm text-ink-500">Hapus otomatis activity log yang lebih lama dari jumlah hari ini (cron tiap 03:30).</p>
-        <div class="flex items-center gap-4">
-          <input v-model.number="logRetentionDays" type="number" min="1" class="input w-24" />
-          <span class="text-sm text-ink-500">hari</span>
-          <button class="btn-primary text-sm" @click="saveLogRetention" :disabled="logSaving">
-            {{ logSaving ? 'Menyimpan...' : 'Simpan' }}
-          </button>
-          <span v-if="logSaved" class="text-sm text-accent-400">Tersimpan</span>
-        </div>
-      </div>
     </div>
 
     <!-- Profile Tab -->
@@ -146,9 +121,9 @@ import { useAuthStore } from '@/stores/auth'
 
 document.title = `Settings - ${useSettings().appName()}`
 
-const { apiGet, apiPut, apiPost, apiUpload } = useApi()
+const { apiPut, apiUpload } = useApi()
 const swal = useSwal()
-const { fetchSettings, appName, logoUrl, faviconUrl } = useSettings()
+const { fetchSettings, appName } = useSettings()
 const authStore = useAuthStore()
 
 const activeTab = ref('general')
@@ -174,16 +149,6 @@ const passForm = reactive({ old_password: '', new_password: '' })
 const passLoading = ref(false)
 const passError = ref('')
 
-// Cron
-const cronInterval = ref(1)
-const cronSaving = ref(false)
-const cronSaved = ref(false)
-
-// Log retention
-const logRetentionDays = ref(30)
-const logSaving = ref(false)
-const logSaved = ref(false)
-
 async function loadSettings() {
   const s = await fetchSettings()
   form.app_name = s?.app_name || ''
@@ -192,11 +157,6 @@ async function loadSettings() {
   form.favicon_path = s?.favicon_path || ''
   logoPreview.value = form.logo_path ? '/' + form.logo_path : ''
   faviconPreview.value = form.favicon_path ? '/' + form.favicon_path : ''
-  try {
-    const info = await apiGet<{ cron_interval: number }>('/settings/scheduler')
-    cronInterval.value = info.cron_interval || 1
-  } catch {}
-  logRetentionDays.value = parseInt(s?.auto_delete_log_days) || 30
 }
 
 async function saveSettings() {
@@ -252,35 +212,6 @@ function removeFavicon() {
   form.favicon_path = ''
   faviconPreview.value = ''
   apiPut('/settings', { favicon_path: '' }).then(() => fetchSettings()).catch(() => {})
-}
-
-async function saveCron() {
-  cronSaving.value = true
-  cronSaved.value = false
-  try {
-    await apiPut('/settings', { cron_interval: String(cronInterval.value) })
-    await apiPost('/settings/scheduler/reload')
-    cronSaved.value = true
-    setTimeout(() => { cronSaved.value = false }, 3000)
-  } catch (e: any) {
-    swal.error(e.message)
-  } finally {
-    cronSaving.value = false
-  }
-}
-
-async function saveLogRetention() {
-  logSaving.value = true
-  logSaved.value = false
-  try {
-    await apiPut('/settings', { auto_delete_log_days: String(logRetentionDays.value) })
-    logSaved.value = true
-    setTimeout(() => { logSaved.value = false }, 3000)
-  } catch (e: any) {
-    swal.error(e.message)
-  } finally {
-    logSaving.value = false
-  }
 }
 
 async function changeEmail() {

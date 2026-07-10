@@ -31,6 +31,11 @@ const router = createRouter({
       component: () => import('@/views/TokensView.vue'),
     },
     {
+      path: '/cronjobs',
+      name: 'cronjobs',
+      component: () => import('@/views/CronjobView.vue'),
+    },
+    {
       path: '/audit-logs',
       name: 'audit-logs',
       component: () => import('@/views/AuditLogView.vue'),
