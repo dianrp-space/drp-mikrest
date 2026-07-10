@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/drp-mikrest/backend/internal/models"
 	"github.com/google/uuid"
@@ -23,7 +24,7 @@ func (r *UserRepository) Create(ctx context.Context, email, passwordHash, role s
 		INSERT INTO users (email, password_hash, role)
 		VALUES ($1, $2, $3)
 		RETURNING id, email, password_hash, role, created_at, updated_at`,
-		email, passwordHash, role,
+		strings.ToLower(email), passwordHash, role,
 	).Scan(&u.ID, &u.Email, &u.PasswordHash, &u.Role, &u.CreatedAt, &u.UpdatedAt)
 	if err != nil {
 		return nil, fmt.Errorf("create user: %w", err)
@@ -35,7 +36,7 @@ func (r *UserRepository) FindByEmail(ctx context.Context, email string) (*models
 	u := &models.User{}
 	err := r.pool.QueryRow(ctx, `
 		SELECT id, email, password_hash, role, created_at, updated_at
-		FROM users WHERE email = $1`, email,
+		FROM users WHERE LOWER(email) = $1`, strings.ToLower(email),
 	).Scan(&u.ID, &u.Email, &u.PasswordHash, &u.Role, &u.CreatedAt, &u.UpdatedAt)
 	if errors.Is(err, pgx.ErrNoRows) {
 		return nil, nil
@@ -69,7 +70,7 @@ func (r *UserRepository) Count(ctx context.Context) (int, error) {
 
 func (r *UserRepository) UpdateEmail(ctx context.Context, id uuid.UUID, email string) error {
 	ct, err := r.pool.Exec(ctx, `
-		UPDATE users SET email = $1, updated_at = now() WHERE id = $2`, email, id)
+		UPDATE users SET email = $1, updated_at = now() WHERE id = $2`, strings.ToLower(email), id)
 	if err != nil {
 		return fmt.Errorf("update email: %w", err)
 	}

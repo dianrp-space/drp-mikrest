@@ -1,13 +1,10 @@
 -- 0001_init.up.sql
 -- Skema awal drp-mikrest
 
-CREATE EXTENSION IF NOT EXISTS citext;
-CREATE EXTENSION IF NOT EXISTS pgcrypto;
-
 -- users aplikasi
 CREATE TABLE users (
   id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  email         CITEXT UNIQUE NOT NULL,
+  email         TEXT UNIQUE NOT NULL,
   password_hash TEXT NOT NULL,
   role          TEXT NOT NULL DEFAULT 'admin'
                 CHECK (role IN ('admin','operator')),
