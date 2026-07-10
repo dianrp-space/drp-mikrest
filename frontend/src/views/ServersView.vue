@@ -28,11 +28,11 @@
       <button class="text-sm text-brand-400 hover:text-brand-300 mt-2" @click="showForm = true">+ Tambah server</button>
     </div>
     <div v-else class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-      <RouterLink
+      <div
         v-for="s in servers"
         :key="s.id"
-        :to="`/servers/${s.id}`"
-        class="card card-hover p-5 block group"
+        class="card card-hover p-5 block group cursor-pointer"
+        @click="router.push(`/servers/${s.id}`)"
       >
         <div class="flex items-start justify-between gap-3">
           <div class="min-w-0 flex-1">
@@ -45,7 +45,7 @@
             {{ s.status }}
           </span>
         </div>
-        <div class="flex gap-1 mt-4 pt-3 border-t border-ink-700" @click.stop>
+        <div class="flex gap-1 mt-4 pt-3 border-t border-ink-700">
           <button class="btn-ghost px-2 py-1 text-xs" @click.stop="testConnection(s.id)" title="Test koneksi">
             <svg class="w-4 h-4 text-accent-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
           </button>
@@ -56,13 +56,14 @@
             <svg class="w-4 h-4 text-danger-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
           </button>
         </div>
-      </RouterLink>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { useApi } from '@/composables/useApi'
 import { useSwal } from '@/composables/useSwal'
 import { useSettings } from '@/composables/useSettings'
@@ -72,6 +73,7 @@ document.title = `Server - ${useSettings().appName()}`
 
 interface Server { id: string; name: string; host: string; api_port: number; username: string; status: string }
 
+const router = useRouter()
 const { apiGet, apiPost, apiDelete } = useApi()
 const swal = useSwal()
 const servers = ref<Server[]>([])
