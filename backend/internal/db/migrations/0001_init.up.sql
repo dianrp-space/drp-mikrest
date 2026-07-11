@@ -1,5 +1,5 @@
 -- 0001_init.up.sql
--- Skema awal drp-mikrest
+-- Skema awal DRP-MikREST
 
 -- users aplikasi
 CREATE TABLE users (

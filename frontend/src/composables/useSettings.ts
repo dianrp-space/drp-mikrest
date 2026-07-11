@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 
 const cache = ref<Record<string, string> | null>(null)
-const defaults = { app_name: 'drp-mikrest', logo_path: '', favicon_path: '', app_url: 'http://localhost:8080' }
+const defaults = { app_name: 'DRP-MikREST', logo_path: '', favicon_path: '', app_url: 'http://localhost:8080' }
 
 function faviconUrl(): string {
   const p = cache.value?.favicon_path

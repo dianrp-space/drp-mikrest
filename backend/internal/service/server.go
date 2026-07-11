@@ -6,10 +6,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/drp-mikrest/backend/internal/crypto"
-	"github.com/drp-mikrest/backend/internal/models"
-	"github.com/drp-mikrest/backend/internal/repository"
-	"github.com/drp-mikrest/backend/internal/routeros"
+	"github.com/DRP-MikREST/backend/internal/crypto"
+	"github.com/DRP-MikREST/backend/internal/models"
+	"github.com/DRP-MikREST/backend/internal/repository"
+	"github.com/DRP-MikREST/backend/internal/routeros"
 	"github.com/google/uuid"
 )
 

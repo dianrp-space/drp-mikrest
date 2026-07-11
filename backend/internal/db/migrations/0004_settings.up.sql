@@ -8,7 +8,7 @@ CREATE TABLE settings (
 );
 
 INSERT INTO settings (key, value) VALUES
-    ('app_name', 'drp-mikrest'),
+    ('app_name', 'DRP-MikREST'),
     ('logo_path', ''),
     ('favicon_path', ''),
     ('app_url', 'http://localhost:8080')

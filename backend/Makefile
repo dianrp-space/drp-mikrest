@@ -1,4 +1,4 @@
-DB_DSN ?= postgres://postgres:34267793@localhost:5432/drp_mikrest?sslmode=disable
+DB_DSN ?= postgres://postgres:34267793@localhost:5432/DRP_MikREST?sslmode=disable
 
 .PHONY: tidy run dev build vet test migrate-new
 

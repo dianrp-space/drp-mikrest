@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/drp-mikrest/backend/internal/middleware"
-	"github.com/drp-mikrest/backend/internal/service"
+	"github.com/DRP-MikREST/backend/internal/middleware"
+	"github.com/DRP-MikREST/backend/internal/service"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 )

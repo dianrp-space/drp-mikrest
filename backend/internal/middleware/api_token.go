@@ -5,8 +5,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/drp-mikrest/backend/internal/repository"
-	"github.com/drp-mikrest/backend/internal/service"
+	"github.com/DRP-MikREST/backend/internal/repository"
+	"github.com/DRP-MikREST/backend/internal/service"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 )

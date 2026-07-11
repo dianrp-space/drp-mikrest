@@ -1,6 +1,6 @@
 import Swal from 'sweetalert2'
 
-// Konfigurasi default SweetAlert2 dengan tema dark drp-mikrest
+// Konfigurasi default SweetAlert2 dengan tema dark DRP-MikREST
 const baseConfig = {
   background: '#26344A',
   color: '#D0DAE5',

@@ -1,4 +1,4 @@
-# Deploy drp-mikrest ke aaPanel (Standard Way)
+# Deploy DRP-MikREST ke aaPanel (Standard Way)
 
 Frontend & backend berjalan terpisah. aaPanel/Nginx serve langsung `frontend/dist/`,
 dan proxy `/api/` + `/uploads/` ke backend Go.
@@ -25,8 +25,8 @@ Buka aaPanel, Install:
 
 ```bash
 mkdir -p /www/wwwroot && cd /www/wwwroot
-git clone https://github.com/dianrp-space/drp-mikrest.git
-cd drp-mikrest
+git clone https://github.com/dianrp-space/DRP-MikREST.git
+cd DRP-MikREST
 ```
 
 ## 3. Setup Database
@@ -35,7 +35,7 @@ aaPanel → **Database** → **Add Database**:
 
 | Field | Isi |
 |-------|------|
-| Database | `drp_mikrest` |
+| Database | `DRP_MikREST` |
 | User | `postgres` |
 | Password | **(isi sendiri)** |
 | Access | `127.0.0.1` |
@@ -43,16 +43,16 @@ aaPanel → **Database** → **Add Database**:
 ## 4. Build Frontend
 
 ```bash
-cd /www/wwwroot/drp-mikrest/frontend
+cd /www/wwwroot/DRP-MikREST/frontend
 npm install
 npm run build
-# hasil: /www/wwwroot/drp-mikrest/frontend/dist/
+# hasil: /www/wwwroot/DRP-MikREST/frontend/dist/
 ```
 
 ## 5. Setup Backend
 
 ```bash
-cd /www/wwwroot/drp-mikrest/backend
+cd /www/wwwroot/DRP-MikREST/backend
 cp .env.example .env
 nano .env
 ```
@@ -69,7 +69,7 @@ DB_HOST=127.0.0.1
 DB_PORT=5432
 DB_USER=postgres
 DB_PASSWORD=(password dari step 3)
-DB_NAME=drp_mikrest
+DB_NAME=DRP_MikREST
 DB_SSLMODE=disable
 DB_MAX_CONNS=10
 
@@ -99,8 +99,8 @@ aaPanel → **Website** → **Add Site**:
 | Field | Isi |
 |-------|------|
 | Domain | `domain-anda.com` |
-| Description | `drp-mikrest` |
-| Root Path | `/www/wwwroot/drp-mikrest/frontend/dist` |
+| Description | `DRP-MikREST` |
+| Root Path | `/www/wwwroot/DRP-MikREST/frontend/dist` |
 
 ### 6b. SSL
 
@@ -144,16 +144,16 @@ Ulangi untuk `/uploads/`:
 ### systemd (recommended)
 
 ```bash
-cat > /etc/systemd/system/drp-mikrest.service << 'EOF'
+cat > /etc/systemd/system/DRP-MikREST.service << 'EOF'
 [Unit]
-Description=drp-mikrest API Server
+Description=DRP-MikREST API Server
 After=network.target postgresql.service
 
 [Service]
 Type=simple
 User=root
-WorkingDirectory=/www/wwwroot/drp-mikrest/backend
-ExecStart=/www/wwwroot/drp-mikrest/backend/bin/api -seed-email=admin@domain.com -seed-pass=Admin12345
+WorkingDirectory=/www/wwwroot/DRP-MikREST/backend
+ExecStart=/www/wwwroot/DRP-MikREST/backend/bin/api -seed-email=admin@domain.com -seed-pass=Admin12345
 Restart=always
 RestartSec=5
 
@@ -162,8 +162,8 @@ WantedBy=multi-user.target
 EOF
 
 systemctl daemon-reload
-systemctl enable --now drp-mikrest
-systemctl status drp-mikrest
+systemctl enable --now DRP-MikREST
+systemctl status DRP-MikREST
 ```
 
 ### Atau Supervisor (via aaPanel)
@@ -173,10 +173,10 @@ Lalu **Add Daemon**:
 
 | Field | Isi |
 |-------|------|
-| Name | `drp-mikrest` |
+| Name | `DRP-MikREST` |
 | Run User | `root` |
-| Run Dir | `/www/wwwroot/drp-mikrest/backend` |
-| Start Command | `/www/wwwroot/drp-mikrest/backend/bin/api -seed-email=admin@domain.com -seed-pass=Admin12345` |
+| Run Dir | `/www/wwwroot/DRP-MikREST/backend` |
+| Start Command | `/www/wwwroot/DRP-MikREST/backend/bin/api -seed-email=admin@domain.com -seed-pass=Admin12345` |
 
 ## 8. Verifikasi
 
@@ -192,7 +192,7 @@ curl https://domain-anda.com/api/web/auth/login \
 ## Update Aplikasi
 
 ```bash
-cd /www/wwwroot/drp-mikrest
+cd /www/wwwroot/DRP-MikREST
 git pull
 
 # Frontend
@@ -202,7 +202,7 @@ cd frontend && npm install && npm run build
 cd ../backend && go build -o bin/api ./cmd/api
 
 # Restart
-systemctl restart drp-mikrest   # systemd
+systemctl restart DRP-MikREST   # systemd
 # atau restart via aaPanel Supervisor
 ```
 
@@ -211,6 +211,6 @@ systemctl restart drp-mikrest   # systemd
 | Hal | Catatan |
 |-----|---------|
 | **Backup DB** | aaPanel → Database → backup, atau `pg_dump` |
-| **Log** | `journalctl -u drp-mikrest -f` (systemd), atau lihat di Supervisor |
+| **Log** | `journalctl -u DRP-MikREST -f` (systemd), atau lihat di Supervisor |
 | **Uploads** | Backend otomatis buat folder `backend/uploads/` — akses via `/uploads/` |
 | **CORS** | `CORS_ORIGIN` harus diisi domain biar ga ditolak browser |

@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/drp-mikrest/backend/internal/service"
+	"github.com/DRP-MikREST/backend/internal/service"
 	"github.com/robfig/cron/v3"
 	"github.com/rs/zerolog/log"
 )

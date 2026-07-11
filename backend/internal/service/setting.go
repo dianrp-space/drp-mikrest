@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 
-	"github.com/drp-mikrest/backend/internal/repository"
+	"github.com/DRP-MikREST/backend/internal/repository"
 )
 
 type SettingService struct {

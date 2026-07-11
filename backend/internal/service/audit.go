@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/drp-mikrest/backend/internal/repository"
+	"github.com/DRP-MikREST/backend/internal/repository"
 )
 
 type AuditService struct {

@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/drp-mikrest/backend/internal/models"
+	"github.com/DRP-MikREST/backend/internal/models"
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -165,6 +165,16 @@ func (r *VoucherRepository) UpdateRouterOSID(ctx context.Context, id uuid.UUID, 
 
 func (r *VoucherRepository) UpdateExpiresAt(ctx context.Context, id uuid.UUID, expiresAt time.Time) error {
 	_, err := r.pool.Exec(ctx, `UPDATE vouchers SET expires_at=$1, updated_at=now() WHERE id=$2`, expiresAt, id)
+	return err
+}
+
+func (r *VoucherRepository) UpdateUsedAt(ctx context.Context, id uuid.UUID, usedAt time.Time) error {
+	_, err := r.pool.Exec(ctx, `UPDATE vouchers SET used_at=$1, updated_at=now() WHERE id=$2`, usedAt, id)
+	return err
+}
+
+func (r *VoucherRepository) UpdateComment(ctx context.Context, id uuid.UUID, comment string) error {
+	_, err := r.pool.Exec(ctx, `UPDATE vouchers SET comment=$1, updated_at=now() WHERE id=$2`, comment, id)
 	return err
 }
 

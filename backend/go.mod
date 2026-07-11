@@ -1,4 +1,4 @@
-module github.com/drp-mikrest/backend
+module github.com/DRP-MikREST/backend
 
 go 1.23
 

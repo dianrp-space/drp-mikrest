@@ -5,8 +5,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/drp-mikrest/backend/internal/repository"
-	"github.com/drp-mikrest/backend/internal/util"
+	"github.com/DRP-MikREST/backend/internal/repository"
+	"github.com/DRP-MikREST/backend/internal/util"
 	"github.com/google/uuid"
 	"github.com/rs/zerolog/log"
 )
@@ -127,18 +127,20 @@ func (e *ExpirationService) RunExpiredCheck(ctx context.Context) int {
 				}
 
 				expiresAt := firstLogin.Add(limitDur)
-				if time.Now().Before(expiresAt) {
-					continue
-				}
 
 				v, err := e.vouchers.FindByUsername(ctx, srv.ID, u.Name)
 				if err != nil || v == nil {
 					continue
 				}
 
-				// catat expires_at di DB jika belum
+				// catat used_at (first login) dari timestamp comment RouterOS & expires_at
+				_ = e.vouchers.UpdateUsedAt(ctx, v.ID, firstLogin)
 				if v.ExpiresAt == nil {
 					_ = e.vouchers.UpdateExpiresAt(ctx, v.ID, expiresAt)
+				}
+
+				if time.Now().Before(expiresAt) {
+					continue
 				}
 
 				// kick jika online

@@ -61,7 +61,7 @@ async function loadData() {
   } catch {}
   const { fetchSettings } = useSettings()
   const s = await fetchSettings()
-  logRetentionDays.value = parseInt(s?.auto_delete_log_days) || 30
+  logRetentionDays.value = parseInt(s?.auto_delete_log_days ?? '') || 30
 }
 
 async function saveCron() {

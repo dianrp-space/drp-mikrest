@@ -1,11 +1,9 @@
 <template>
   <div class="space-y-6 animate-fade-in">
-    <div class="flex items-center justify-between">
-      <div>
-        <h1 class="page-title">Server Router</h1>
-        <p class="page-subtitle">Daftar Mikrotik yang dikelola</p>
-      </div>
-      <button class="btn-primary" @click="showForm = !showForm">
+    <div>
+      <h1 class="page-title">Server Router</h1>
+      <p class="page-subtitle">Daftar Mikrotik yang dikelola</p>
+      <button class="btn-primary mt-4" @click="showForm = !showForm">
         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
         {{ showForm ? 'Batal' : 'Tambah Server' }}
       </button>

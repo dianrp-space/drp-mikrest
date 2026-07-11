@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/drp-mikrest/backend/internal/models"
-	"github.com/drp-mikrest/backend/internal/repository"
-	"github.com/drp-mikrest/backend/internal/routeros"
+	"github.com/DRP-MikREST/backend/internal/models"
+	"github.com/DRP-MikREST/backend/internal/repository"
+	"github.com/DRP-MikREST/backend/internal/routeros"
 	"github.com/google/uuid"
 )
 

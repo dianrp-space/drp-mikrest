@@ -1,11 +1,9 @@
 <template>
   <div class="space-y-6 animate-fade-in">
-    <div class="flex items-center justify-between">
-      <div>
-        <h1 class="page-title">API Token</h1>
-        <p class="page-subtitle">Token untuk integrasi sistem lain</p>
-      </div>
-      <button class="btn-primary text-sm" @click="showForm = !showForm">{{ showForm ? 'Batal' : '+ Buat Token' }}</button>
+    <div>
+      <h1 class="page-title">API Token</h1>
+      <p class="page-subtitle">Token untuk integrasi sistem lain</p>
+      <button class="btn-primary text-sm mt-4" @click="showForm = !showForm">{{ showForm ? 'Batal' : '+ Buat Token' }}</button>
     </div>
 
     <form v-if="showForm" class="card p-6 space-y-4 max-w-xl animate-slide-up" @submit.prevent="createToken">
@@ -107,32 +105,32 @@
 
       <div>
         <div class="text-xs font-medium text-ink-300 mb-1.5">Login — ambil bearer token</div>
-        <pre class="text-xs bg-ink-950 text-ink-300 p-3 rounded-lg overflow-auto font-mono border border-ink-800 cursor-pointer hover:border-accent-500/50 transition-colors" @click="copyText($event.currentTarget.textContent.trim(), 'Contoh login tersalin')" v-text="examples.login"></pre>
+        <pre class="text-xs bg-ink-950 text-ink-300 p-3 rounded-lg overflow-auto font-mono border border-ink-800 cursor-pointer hover:border-accent-500/50 transition-colors" @click="copyFromEvent($event, 'Contoh login tersalin')" v-text="examples.login"></pre>
       </div>
 
       <div>
         <div class="text-xs font-medium text-ink-300 mb-1.5">List server</div>
-        <pre class="text-xs bg-ink-950 text-ink-300 p-3 rounded-lg overflow-auto font-mono border border-ink-800 cursor-pointer hover:border-accent-500/50 transition-colors" @click="copyText($event.currentTarget.textContent.trim(), 'Contoh list server tersalin')" v-text="examples.servers"></pre>
+        <pre class="text-xs bg-ink-950 text-ink-300 p-3 rounded-lg overflow-auto font-mono border border-ink-800 cursor-pointer hover:border-accent-500/50 transition-colors" @click="copyFromEvent($event, 'Contoh list server tersalin')" v-text="examples.servers"></pre>
       </div>
 
       <div>
         <div class="text-xs font-medium text-ink-300 mb-1.5">Generate voucher (username = password otomatis)</div>
-        <pre class="text-xs bg-ink-950 text-ink-300 p-3 rounded-lg overflow-auto font-mono border border-ink-800 cursor-pointer hover:border-accent-500/50 transition-colors" @click="copyText($event.currentTarget.textContent.trim(), 'Contoh generate voucher tersalin')" v-text="examples.voucher"></pre>
+        <pre class="text-xs bg-ink-950 text-ink-300 p-3 rounded-lg overflow-auto font-mono border border-ink-800 cursor-pointer hover:border-accent-500/50 transition-colors" @click="copyFromEvent($event, 'Contoh generate voucher tersalin')" v-text="examples.voucher"></pre>
       </div>
 
       <div>
         <div class="text-xs font-medium text-ink-300 mb-1.5">Buat member (username & password berbeda)</div>
-        <pre class="text-xs bg-ink-950 text-ink-300 p-3 rounded-lg overflow-auto font-mono border border-ink-800 cursor-pointer hover:border-accent-500/50 transition-colors" @click="copyText($event.currentTarget.textContent.trim(), 'Contoh buat member tersalin')" v-text="examples.member"></pre>
+        <pre class="text-xs bg-ink-950 text-ink-300 p-3 rounded-lg overflow-auto font-mono border border-ink-800 cursor-pointer hover:border-accent-500/50 transition-colors" @click="copyFromEvent($event, 'Contoh buat member tersalin')" v-text="examples.member"></pre>
       </div>
 
       <div>
         <div class="text-xs font-medium text-ink-300 mb-1.5">Disable / enable / hapus voucher atau member</div>
-        <pre class="text-xs bg-ink-950 text-ink-300 p-3 rounded-lg overflow-auto font-mono border border-ink-800 cursor-pointer hover:border-accent-500/50 transition-colors" @click="copyText($event.currentTarget.textContent.trim(), 'Contoh disable/enable/hapus tersalin')" v-text="examples.disableEnableDelete"></pre>
+        <pre class="text-xs bg-ink-950 text-ink-300 p-3 rounded-lg overflow-auto font-mono border border-ink-800 cursor-pointer hover:border-accent-500/50 transition-colors" @click="copyFromEvent($event, 'Contoh disable/enable/hapus tersalin')" v-text="examples.disableEnableDelete"></pre>
       </div>
 
       <div>
         <div class="text-xs font-medium text-ink-300 mb-1.5">Sinkronisasi voucher dari router</div>
-        <pre class="text-xs bg-ink-950 text-ink-300 p-3 rounded-lg overflow-auto font-mono border border-ink-800 cursor-pointer hover:border-accent-500/50 transition-colors" @click="copyText($event.currentTarget.textContent.trim(), 'Contoh sync tersalin')" v-text="examples.sync"></pre>
+        <pre class="text-xs bg-ink-950 text-ink-300 p-3 rounded-lg overflow-auto font-mono border border-ink-800 cursor-pointer hover:border-accent-500/50 transition-colors" @click="copyFromEvent($event, 'Contoh sync tersalin')" v-text="examples.sync"></pre>
       </div>
 
       <div class="text-xs text-ink-500 bg-ink-900/50 border border-ink-800 rounded-lg p-3 space-y-1">
@@ -256,6 +254,12 @@ async function copyText(text: string, msg: string) {
   if (!text) return
   try { await navigator.clipboard.writeText(text); swal.success(msg) }
   catch { swal.error('Gagal menyalin, salin manual dari teks') }
+}
+
+function copyFromEvent(e: Event, msg: string) {
+  const el = e.currentTarget as HTMLElement | null
+  const text = el?.textContent?.trim() || ''
+  copyText(text, msg)
 }
 
 function fmt(t: string) { return new Date(t).toLocaleString('id-ID', { dateStyle: 'short', timeStyle: 'short' }) }

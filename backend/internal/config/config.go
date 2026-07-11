@@ -61,7 +61,7 @@ func Load() (*Config, error) {
 			Port:     getEnvInt("DB_PORT", 5432),
 			User:     getEnv("DB_USER", "postgres"),
 			Password: os.Getenv("DB_PASSWORD"),
-			Name:     getEnv("DB_NAME", "drp_mikrest"),
+			Name:     getEnv("DB_NAME", "DRP_MikREST"),
 			SSLMode:  getEnv("DB_SSLMODE", "disable"),
 			MaxConns: getEnvInt("DB_MAX_CONNS", 10),
 		},

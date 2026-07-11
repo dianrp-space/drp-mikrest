@@ -3,8 +3,8 @@ package handler
 import (
 	"time"
 
-	"github.com/drp-mikrest/backend/internal/middleware"
-	"github.com/drp-mikrest/backend/internal/util"
+	"github.com/DRP-MikREST/backend/internal/middleware"
+	"github.com/DRP-MikREST/backend/internal/util"
 	"github.com/gofiber/fiber/v2"
 )
 

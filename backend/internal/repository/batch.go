@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 
-	"github.com/drp-mikrest/backend/internal/models"
+	"github.com/DRP-MikREST/backend/internal/models"
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgxpool"
 )

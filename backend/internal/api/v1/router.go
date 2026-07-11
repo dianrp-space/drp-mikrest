@@ -1,9 +1,9 @@
 package v1
 
 import (
-	"github.com/drp-mikrest/backend/internal/handler"
-	"github.com/drp-mikrest/backend/internal/middleware"
-	"github.com/drp-mikrest/backend/internal/service"
+	"github.com/DRP-MikREST/backend/internal/handler"
+	"github.com/DRP-MikREST/backend/internal/middleware"
+	"github.com/DRP-MikREST/backend/internal/service"
 	"github.com/gofiber/fiber/v2"
 )
 

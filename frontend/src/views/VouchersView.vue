@@ -40,7 +40,7 @@
       </div>
       <div v-else class="overflow-x-auto">
         <table class="table-base">
-          <thead><tr><th>Voucher</th><th>Limit</th><th>Status</th><th>Expired</th><th>Dibuat</th><th class="text-right">Aksi</th></tr></thead>
+          <thead><tr><th>Voucher</th><th>Limit</th><th>Status</th><th>Expired</th><th>First Login</th><th>Dibuat</th><th class="text-right">Aksi</th></tr></thead>
           <tbody>
             <tr v-for="v in vouchers" :key="v.id" :class="v.status === 'disabled' ? 'opacity-50' : ''">
               <td class="font-mono font-medium text-ink-100">{{ v.username }}</td>
@@ -53,6 +53,10 @@
                 <span v-if="v.expires_at">{{ fmt(v.expires_at) }}</span>
                 <span v-else-if="v.limit_uptime" class="text-ink-500 italic">setelah login</span>
                 <span v-else class="text-ink-600">-</span>
+              </td>
+              <td class="text-xs font-mono text-ink-400">
+                <span v-if="v.comment && /^\d{4}-\d{2}-\d{2}/.test(v.comment)">{{ v.comment }}</span>
+                <span v-else class="text-ink-600 italic">Never used</span>
               </td>
               <td class="text-xs text-ink-500 font-mono">{{ fmt(v.created_at) }}</td>
               <td class="text-right">

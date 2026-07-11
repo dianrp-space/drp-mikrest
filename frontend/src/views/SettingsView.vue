@@ -23,7 +23,7 @@
         <h2 class="font-semibold text-ink-100">Informasi Aplikasi</h2>
         <div>
           <label class="label">Nama Aplikasi</label>
-          <input v-model="form.app_name" class="input w-full" placeholder="drp-mikrest" />
+          <input v-model="form.app_name" class="input w-full" placeholder="DRP-MikREST" />
         </div>
         <div>
           <label class="label">Base URL Aplikasi</label>

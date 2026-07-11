@@ -8,9 +8,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/drp-mikrest/backend/internal/models"
-	"github.com/drp-mikrest/backend/internal/repository"
-	"github.com/drp-mikrest/backend/internal/util"
+	"github.com/DRP-MikREST/backend/internal/models"
+	"github.com/DRP-MikREST/backend/internal/repository"
+	"github.com/DRP-MikREST/backend/internal/util"
 	"github.com/google/uuid"
 	"github.com/rs/zerolog/log"
 )
@@ -502,6 +502,11 @@ func (s *VoucherService) SyncFromRouter(ctx context.Context, serverID uuid.UUID,
 			needUpdate := false
 			if v.Status != newStatus {
 				_ = s.vouchers.UpdateStatus(ctx, v.ID, newStatus)
+				needUpdate = true
+			}
+			// sync comment dari RouterOS (OnLogin script menaruh timestamp di comment)
+			if u.Comment != "" && u.Comment != v.Comment {
+				_ = s.vouchers.UpdateComment(ctx, v.ID, u.Comment)
 				needUpdate = true
 			}
 			// disable di router kalau expired

@@ -5,8 +5,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/drp-mikrest/backend/internal/scheduler"
-	"github.com/drp-mikrest/backend/internal/service"
+	"github.com/DRP-MikREST/backend/internal/scheduler"
+	"github.com/DRP-MikREST/backend/internal/service"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 )

@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/drp-mikrest/backend/internal/models"
-	"github.com/drp-mikrest/backend/internal/repository"
-	"github.com/drp-mikrest/backend/internal/util"
+	"github.com/DRP-MikREST/backend/internal/models"
+	"github.com/DRP-MikREST/backend/internal/repository"
+	"github.com/DRP-MikREST/backend/internal/util"
 	"github.com/google/uuid"
 )
 
