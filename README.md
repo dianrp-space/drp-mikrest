@@ -1,7 +1,7 @@
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="frontend/public/DRP-MikREST.webp">
-    <img src="frontend/public/DRP-MikREST.webp" alt="DRP-MikREST" width="400">
+    <source media="(prefers-color-scheme: dark)" srcset="frontend/public/drp-mikrest.webp">
+    <img src="frontend/public/drp-mikrest.webp" alt="DRP-MikREST" width="400">
   </picture>
 </p>
 
