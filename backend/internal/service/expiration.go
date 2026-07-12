@@ -112,12 +112,28 @@ func (e *ExpirationService) RunExpiredCheck(ctx context.Context) int {
 				if u.Name == "default-trial" || u.Name == "admin" || u.Dynamic {
 					continue
 				}
-				if u.Comment == "" || u.LimitUptime == "" {
+				if u.Comment == "" {
 					continue
 				}
 
 				firstLogin, err := time.ParseInLocation("2006-01-02 15:04:05", u.Comment, time.Local)
 				if err != nil {
+					continue
+				}
+
+				v, err := e.vouchers.FindByUsername(ctx, srv.ID, u.Name)
+				if err != nil || v == nil {
+					continue
+				}
+
+				// sync comment & used_at dari RouterOS (first login timestamp)
+				if u.Comment != v.Comment {
+					_ = e.vouchers.UpdateComment(ctx, v.ID, u.Comment)
+				}
+				_ = e.vouchers.UpdateUsedAt(ctx, v.ID, firstLogin)
+
+				// proses expiry hanya jika ada limit-uptime
+				if u.LimitUptime == "" {
 					continue
 				}
 
@@ -128,16 +144,7 @@ func (e *ExpirationService) RunExpiredCheck(ctx context.Context) int {
 
 				expiresAt := firstLogin.Add(limitDur)
 
-				v, err := e.vouchers.FindByUsername(ctx, srv.ID, u.Name)
-				if err != nil || v == nil {
-					continue
-				}
-
-				// catat used_at (first login) dari timestamp comment RouterOS & expires_at
-				_ = e.vouchers.UpdateUsedAt(ctx, v.ID, firstLogin)
-				if v.ExpiresAt == nil {
-					_ = e.vouchers.UpdateExpiresAt(ctx, v.ID, expiresAt)
-				}
+				_ = e.vouchers.UpdateExpiresAt(ctx, v.ID, expiresAt)
 
 				if time.Now().Before(expiresAt) {
 					continue

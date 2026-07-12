@@ -55,7 +55,8 @@
                 <span v-else class="text-ink-600">-</span>
               </td>
               <td class="text-xs font-mono text-ink-400">
-                <span v-if="v.comment && /^\d{4}-\d{2}-\d{2}/.test(v.comment)">{{ v.comment }}</span>
+                <span v-if="v.used_at">{{ fmt(v.used_at) }}</span>
+                <span v-else-if="v.comment && /^\d{4}-\d{2}-\d{2}/.test(v.comment)">{{ v.comment }}</span>
                 <span v-else class="text-ink-600 italic">Never used</span>
               </td>
               <td class="text-xs text-ink-500 font-mono">{{ fmt(v.created_at) }}</td>
