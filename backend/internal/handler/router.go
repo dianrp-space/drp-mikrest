@@ -19,6 +19,7 @@ type Deps struct {
 	TokenHandler        *TokenHandler
 	SettingHandler      *SettingHandler
 	AuditHandler        *AuditHandler
+	WOLHandler          *WOLHandler
 	DisableRegistration bool
 }
 
@@ -92,4 +93,13 @@ func RegisterRoutes(app *fiber.App, deps *Deps) {
 	protected.Post("/settings/upload-favicon", deps.SettingHandler.UploadFavicon)
 	protected.Get("/settings/scheduler", deps.SettingHandler.GetSchedulerInfo)
 	protected.Post("/settings/scheduler/reload", deps.SettingHandler.ReloadScheduler)
+
+	// server interfaces (untuk WOL)
+	protected.Get("/servers/:id/interfaces", deps.ServerHandler.Interfaces)
+
+	// WOL
+	protected.Get("/wol", deps.WOLHandler.List)
+	protected.Post("/wol", deps.WOLHandler.Create)
+	protected.Post("/wol/:id/send", deps.WOLHandler.Send)
+	protected.Delete("/wol/:id", deps.WOLHandler.Delete)
 }

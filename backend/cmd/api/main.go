@@ -82,6 +82,8 @@ func main() {
 	expireSvc := service.NewExpirationService(voucherRepo, serverSvc, auditRepo)
 	settingSvc := service.NewSettingService(settingRepo)
 	auditSvc := service.NewAuditService(auditRepo)
+	wolRepo := repository.NewWOLRepository(pool)
+	wolSvc := service.NewWOLService(wolRepo, serverSvc)
 
 	// Seed admin awal (opsional via flag / env)
 	if *seedEmail != "" && *seedPass != "" {
@@ -125,6 +127,7 @@ func main() {
 		TokenHandler:        handler.NewTokenHandler(tokenSvc, auditRepo),
 		SettingHandler:      handler.NewSettingHandler(settingSvc, sched),
 		AuditHandler:        handler.NewAuditHandler(auditSvc),
+		WOLHandler:          handler.NewWOLHandler(wolSvc),
 		DisableRegistration: cfg.DisableRegistration,
 	})
 

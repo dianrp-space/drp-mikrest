@@ -170,4 +170,22 @@ func (h *ServerHandler) Resource(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{"identity": identity, "resource": res})
 }
 
+func (h *ServerHandler) Interfaces(c *fiber.Ctx) error {
+	id, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(400).JSON(fiber.Map{"error": "bad_id"})
+	}
+	ctx, cancel := context.WithTimeout(c.UserContext(), 10*time.Second)
+	defer cancel()
+	cl, err := h.svc.GetClient(ctx, id)
+	if err != nil {
+		return c.Status(502).JSON(fiber.Map{"error": "connection_failed", "message": err.Error()})
+	}
+	ifaces, err := cl.Print("/interface")
+	if err != nil {
+		return c.Status(502).JSON(fiber.Map{"error": "routeros_error", "message": err.Error()})
+	}
+	return c.JSON(fiber.Map{"data": ifaces})
+}
+
 var _ = time.Second

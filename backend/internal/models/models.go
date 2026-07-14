@@ -107,3 +107,20 @@ type AuditLog struct {
 	Detail    []byte    `json:"detail,omitempty"`
 	CreatedAt time.Time `json:"created_at"`
 }
+
+type WOLTarget struct {
+	ID            uuid.UUID `json:"id"`
+	ServerID      uuid.UUID `json:"server_id"`
+	InterfaceName string    `json:"interface_name"`
+	MACAddress    string    `json:"mac_address"`
+	Name          string    `json:"name"`
+	CreatedAt     time.Time `json:"created_at"`
+	UpdatedAt     time.Time `json:"updated_at"`
+}
+
+type WOLTargetInput struct {
+	ServerID      string `json:"server_id"`
+	InterfaceName string `json:"interface_name"`
+	MACAddress    string `json:"mac_address"`
+	Name          string `json:"name"`
+}
