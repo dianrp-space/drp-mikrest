@@ -15,6 +15,8 @@ type Config struct {
 	AppSecret  string
 	EncryptionKey string
 	CORSOrigin string
+	SeedEmail  string
+	SeedPass   string
 
 	DB DBConfig
 
@@ -56,6 +58,8 @@ func Load() (*Config, error) {
 		AppSecret:  os.Getenv("APP_SECRET"),
 		EncryptionKey: os.Getenv("ENCRYPTION_KEY"),
 		CORSOrigin: getEnv("CORS_ORIGIN", "http://localhost:5173"),
+		SeedEmail:  getEnv("APP_SEED_EMAIL", "admin"),
+		SeedPass:   getEnv("APP_SEED_PASS", "admin123"),
 		DB: DBConfig{
 			Host:     getEnv("DB_HOST", "localhost"),
 			Port:     getEnvInt("DB_PORT", 5432),

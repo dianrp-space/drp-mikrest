@@ -20,6 +20,7 @@ type Deps struct {
 	SettingHandler      *SettingHandler
 	AuditHandler        *AuditHandler
 	WOLHandler          *WOLHandler
+	TerminalHandler     *TerminalHandler
 	DisableRegistration bool
 }
 
@@ -102,4 +103,7 @@ func RegisterRoutes(app *fiber.App, deps *Deps) {
 	protected.Post("/wol", deps.WOLHandler.Create)
 	protected.Post("/wol/:id/send", deps.WOLHandler.Send)
 	protected.Delete("/wol/:id", deps.WOLHandler.Delete)
+
+	// Terminal (RouterOS CLI via API)
+	protected.Post("/servers/:id/terminal", deps.TerminalHandler.Exec)
 }

@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"flag"
 	"os"
 	"os/signal"
 	"syscall"
@@ -26,10 +25,6 @@ import (
 func main() {
 	zerolog.TimeFieldFormat = time.RFC3339
 	log.Logger = log.With().Timestamp().Logger()
-
-	seedEmail := flag.String("seed-email", "", "email admin awal jika users kosong")
-	seedPass := flag.String("seed-pass", "", "password admin awal")
-	flag.Parse()
 
 	cfg, err := config.Load()
 	if err != nil {
@@ -85,12 +80,12 @@ func main() {
 	wolRepo := repository.NewWOLRepository(pool)
 	wolSvc := service.NewWOLService(wolRepo, serverSvc)
 
-	// Seed admin awal (opsional via flag / env)
-	if *seedEmail != "" && *seedPass != "" {
-		if err := authSvc.EnsureSeedUser(rootCtx, *seedEmail, *seedPass); err != nil {
+	// Seed admin awal (dari env, default admin:admin123 untuk development)
+	if cfg.SeedEmail != "" && cfg.SeedPass != "" {
+		if err := authSvc.EnsureSeedUser(rootCtx, cfg.SeedEmail, cfg.SeedPass); err != nil {
 			log.Error().Err(err).Msg("seed user")
 		} else {
-			log.Info().Str("email", *seedEmail).Msg("seed user dipastikan")
+			log.Info().Str("email", cfg.SeedEmail).Msg("seed user dipastikan")
 		}
 	}
 
@@ -119,7 +114,7 @@ func main() {
 
 	handler.RegisterRoutes(app, &handler.Deps{
 		JWT:                 jwtMgr,
-		AuthHandler:         handler.NewAuthHandler(authSvc, tokenSvc, jwtMgr, auditRepo, *seedEmail, *seedPass),
+		AuthHandler:         handler.NewAuthHandler(authSvc, tokenSvc, jwtMgr, auditRepo, cfg.SeedEmail, cfg.SeedPass),
 		ServerHandler:       handler.NewServerHandler(serverSvc),
 		VoucherHandler:      handler.NewVoucherHandler(voucherSvc),
 		ProfileHandler:      handler.NewProfileHandler(profileSvc),
@@ -128,6 +123,7 @@ func main() {
 		SettingHandler:      handler.NewSettingHandler(settingSvc, sched),
 		AuditHandler:        handler.NewAuditHandler(auditSvc),
 		WOLHandler:          handler.NewWOLHandler(wolSvc),
+		TerminalHandler:     handler.NewTerminalHandler(serverSvc),
 		DisableRegistration: cfg.DisableRegistration,
 	})
 

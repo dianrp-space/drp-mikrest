@@ -132,5 +132,47 @@ func (cl *Client) Ping() (string, error) {
 	return rows[0]["name"], nil
 }
 
-// splitCommand memisahkan path dan opsi.
+// Exec menjalankan command RouterOS mentah dan mengembalikan output terminasi
+// dalam bentuk teks (seperti terminal CLI).
+// Contoh: Exec("/ip/hotspot/active/print count-only=yes")
+func (cl *Client) Exec(command string) (string, error) {
+	args := strings.Fields(command)
+	if len(args) == 0 {
+		return "", errors.New("command kosong")
+	}
+	rows, err := cl.RunMap(args...)
+	if err != nil {
+		return "", err
+	}
+
+	var buf strings.Builder
+	if len(rows) == 0 {
+		buf.WriteString("-- empty --\n")
+		return buf.String(), nil
+	}
+
+	// Kumpulkan semua key yang mungkin muncul
+	keys := make(map[string]bool)
+	for _, row := range rows {
+		for k := range row {
+			keys[k] = true
+		}
+	}
+	keyList := make([]string, 0, len(keys))
+	for k := range keys {
+		keyList = append(keyList, k)
+	}
+
+	for _, row := range rows {
+		for _, k := range keyList {
+			if v, ok := row[k]; ok {
+				buf.WriteString(fmt.Sprintf("  %s: %s\n", k, v))
+			}
+		}
+		buf.WriteString("\n")
+	}
+
+	return buf.String(), nil
+}
+
 var _ = strings.Split
